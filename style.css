@@ -1,0 +1,350 @@
+#mb-float-btn {
+    position: fixed;
+    bottom: 90px;
+    right: 16px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--SmartThemeQuoteColor, #6ba3ff);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    cursor: pointer;
+    z-index: 9998;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+    user-select: none;
+    transition: transform 0.15s ease;
+}
+
+#mb-float-btn:hover {
+    transform: scale(1.08);
+}
+
+#mb-panel {
+    display: none;
+    position: fixed;
+    bottom: 140px;
+    right: 16px;
+    width: 320px;
+    max-height: 60vh;
+    background: var(--SmartThemeBlurTintColor, #1e1e22);
+    border: 1px solid color-mix(in srgb, var(--SmartThemeQuoteColor, #6ba3ff) 50%, transparent);
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    color: var(--SmartThemeBodyColor, #eee);
+    font-size: 13px;
+}
+
+.mb-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+#mb-panel-close {
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    font-size: 14px;
+    opacity: 0.7;
+}
+#mb-panel-close:hover { opacity: 1; }
+
+.mb-tabs {
+    display: flex;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mb-tab {
+    flex: 1;
+    padding: 8px 4px;
+    background: none;
+    border: none;
+    color: inherit;
+    opacity: 0.6;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.mb-tab.active {
+    opacity: 1;
+    border-bottom: 2px solid var(--SmartThemeQuoteColor, #6ba3ff);
+    font-weight: 600;
+}
+
+.mb-tabpane {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    overflow: hidden;
+    flex: 1;
+}
+
+#mb-search-input,
+#mb-add-label {
+    width: 100%;
+    padding: 7px 9px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.05);
+    color: inherit;
+    box-sizing: border-box;
+    margin-bottom: 8px;
+    font-size: 13px;
+}
+
+.mb-scroll {
+    overflow-y: auto;
+    max-height: 40vh;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.mb-empty {
+    opacity: 0.55;
+    text-align: center;
+    padding: 18px 8px;
+    font-size: 12px;
+}
+
+.mb-result-row,
+.mb-bookmark-row {
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 8px;
+    padding: 7px 9px;
+    cursor: pointer;
+    transition: background 0.12s ease;
+    position: relative;
+}
+
+.mb-result-row:hover,
+.mb-bookmark-row:hover {
+    background: rgba(255, 255, 255, 0.09);
+}
+
+.mb-result-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    opacity: 0.65;
+    margin-bottom: 3px;
+}
+
+.mb-result-snippet mark {
+    background: color-mix(in srgb, var(--SmartThemeQuoteColor, #6ba3ff) 55%, transparent);
+    color: inherit;
+    border-radius: 3px;
+    padding: 0 2px;
+}
+
+.mb-bookmark-row {
+    border-left: 3px solid #9aa0a6;
+    padding-left: 8px;
+}
+
+.mb-bookmark-main {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12.5px;
+}
+
+.mb-bookmark-label {
+    flex: 1;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mb-bookmark-num {
+    opacity: 0.5;
+    font-size: 10.5px;
+}
+
+.mb-bookmark-snippet {
+    opacity: 0.6;
+    font-size: 11px;
+    margin-top: 2px;
+}
+
+.mb-bookmark-remove {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    background: none;
+    border: none;
+    color: inherit;
+    opacity: 0.4;
+    cursor: pointer;
+    font-size: 11px;
+}
+.mb-bookmark-remove:hover { opacity: 1; }
+
+#mb-category-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 8px;
+}
+
+.mb-chip {
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.04);
+    color: inherit;
+    border-radius: 999px;
+    padding: 3px 8px;
+    font-size: 11px;
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.mb-chip.active {
+    opacity: 1;
+    border-color: var(--SmartThemeQuoteColor, #6ba3ff);
+    background: color-mix(in srgb, var(--SmartThemeQuoteColor, #6ba3ff) 25%, transparent);
+}
+
+/* message bookmark icon */
+.mb-bookmark-btn {
+    cursor: pointer;
+    opacity: 0.55;
+}
+.mb-bookmark-btn:hover {
+    opacity: 1;
+}
+
+/* jump-to-message flash highlight */
+.mb-flash {
+    animation: mb-flash-anim 1.4s ease;
+}
+
+@keyframes mb-flash-anim {
+    0% { background-color: color-mix(in srgb, var(--SmartThemeQuoteColor, #6ba3ff) 35%, transparent); }
+    100% { background-color: transparent; }
+}
+
+/* add-bookmark modal */
+#mb-add-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 10000;
+    align-items: center;
+    justify-content: center;
+}
+
+.mb-add-box {
+    background: var(--SmartThemeBlurTintColor, #1e1e22);
+    border: 1px solid color-mix(in srgb, var(--SmartThemeQuoteColor, #6ba3ff) 50%, transparent);
+    border-radius: 14px;
+    padding: 16px;
+    width: 260px;
+    color: var(--SmartThemeBodyColor, #eee);
+}
+
+.mb-add-title {
+    font-weight: 700;
+    margin-bottom: 10px;
+    font-size: 13px;
+}
+
+#mb-add-category {
+    width: 100%;
+    padding: 6px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.05);
+    color: inherit;
+    margin-bottom: 8px;
+}
+
+.mb-add-preview {
+    font-size: 11px;
+    opacity: 0.55;
+    margin-bottom: 10px;
+    max-height: 50px;
+    overflow: hidden;
+}
+
+.mb-add-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.mb-add-actions button {
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+#mb-add-cancel {
+    background: rgba(255, 255, 255, 0.08);
+    color: inherit;
+}
+
+#mb-add-save {
+    background: var(--SmartThemeQuoteColor, #6ba3ff);
+    color: #fff;
+    font-weight: 600;
+}
+
+/* mobile */
+@media (max-width: 600px) {
+    #mb-panel {
+        width: 90vw;
+        right: 5vw;
+        bottom: 120px;
+        max-height: 70vh;
+    }
+    #mb-float-btn {
+        bottom: 76px;
+    }
+}
+
+/* ============ Settings panel (matches ST's inline-drawer card look) ============ */
+#mb_settings {
+    --mb-surface: color-mix(in srgb, var(--SmartThemeBlurTintColor, rgba(18, 18, 20, 0.96)) 88%, rgba(255, 255, 255, 0.03) 12%);
+    --mb-border: color-mix(in srgb, var(--SmartThemeBorderColor, rgba(255, 255, 255, 0.16)) 80%, rgba(255, 255, 255, 0.12) 20%);
+    --mb-accent: var(--SmartThemeQuoteColor, #6ba3ff);
+    --mb-text: var(--SmartThemeBodyColor, #f2f0eb);
+    --mb-muted: color-mix(in srgb, var(--SmartThemeBodyColor, #f2f0eb) 64%, var(--SmartThemeEmColor, #9b9b9b) 36%);
+
+    padding: 10px 12px;
+    border: 1px solid var(--mb-border);
+    border-radius: 12px;
+    background: var(--mb-surface);
+    color: var(--mb-text);
+}
+
+#mb_settings .checkbox_label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+#mb_settings input[type="checkbox"] {
+    accent-color: var(--mb-accent);
+}
+
+#mb_settings small {
+    display: block;
+    color: var(--mb-muted);
+}
+
