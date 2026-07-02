@@ -10,7 +10,7 @@ import {
     saveSettingsDebounced,
 } from "../../../../script.js";
 
-const extensionName = "message-bookmarks";
+const MODULE = "message_bookmarks";
 const defaultSettings = {
     enabled: true,
 };
@@ -25,13 +25,71 @@ const CATEGORIES = {
 
 // ---------- settings ----------
 
-function loadSettings() {
-    extension_settings[extensionName] = Object.assign(
-        {},
-        defaultSettings,
-        extension_settings[extensionName],
-    );
-    return extension_settings[extensionName];
+function getSettings() {
+    if (extension_settings[MODULE] === undefined) {
+        extension_settings[MODULE] = structuredClone(defaultSettings);
+    }
+    for (const key in defaultSettings) {
+        if (extension_settings[MODULE][key] === undefined) {
+            extension_settings[MODULE][key] = defaultSettings[key];
+        }
+    }
+    return extension_settings[MODULE];
+}
+
+function addExtensionSettings(settings) {
+    const settingsContainer =
+        document.getElementById("message_bookmarks_container") ??
+        document.getElementById("extensions_settings2");
+    if (!settingsContainer) return;
+
+    const inlineDrawer = document.createElement("div");
+    inlineDrawer.classList.add("inline-drawer");
+    settingsContainer.append(inlineDrawer);
+
+    const inlineDrawerToggle = document.createElement("div");
+    inlineDrawerToggle.classList.add("inline-drawer-toggle", "inline-drawer-header");
+
+    const title = document.createElement("b");
+    title.textContent = "🔖 Message Bookmarks & Search";
+
+    const inlineDrawerIcon = document.createElement("div");
+    inlineDrawerIcon.classList.add("inline-drawer-icon", "fa-solid", "fa-circle-chevron-down", "down");
+
+    inlineDrawerToggle.append(title, inlineDrawerIcon);
+
+    const inlineDrawerContent = document.createElement("div");
+    inlineDrawerContent.classList.add("inline-drawer-content");
+
+    inlineDrawer.append(inlineDrawerToggle, inlineDrawerContent);
+
+    const enabledLabel = document.createElement("label");
+    enabledLabel.classList.add("checkbox_label");
+    enabledLabel.htmlFor = "messageBookmarksEnabled";
+    const enabledCheckbox = document.createElement("input");
+    enabledCheckbox.id = "messageBookmarksEnabled";
+    enabledCheckbox.type = "checkbox";
+    enabledCheckbox.checked = settings.enabled;
+    enabledCheckbox.addEventListener("change", () => {
+        settings.enabled = enabledCheckbox.checked;
+        saveSettingsDebounced();
+        applyEnabledState();
+    });
+    const enabledText = document.createElement("span");
+    enabledText.textContent = "Enabled";
+    enabledLabel.append(enabledCheckbox, enabledText);
+    inlineDrawerContent.append(enabledLabel);
+
+    const hint = document.createElement("small");
+    hint.textContent = "Bookmarks live in each chat's metadata, so they save and export with the chat itself.";
+    hint.style.opacity = "0.6";
+    inlineDrawerContent.append(hint);
+}
+
+function applyEnabledState() {
+    const settings = getSettings();
+    $("#mb-float-btn").toggle(settings.enabled);
+    if (!settings.enabled) closePanel();
 }
 
 // ---------- bookmark storage (lives in chat metadata, so it travels with the chat file) ----------
@@ -364,23 +422,34 @@ function buildUI() {
 
 // ---------- boot ----------
 
-jQuery(async () => {
-    loadSettings();
-    buildUI();
-    injectBookmarkButtons();
+jQuery(() => {
+    try {
+        const settings = getSettings();
+        addExtensionSettings(settings);
+        buildUI();
+        applyEnabledState();
+        injectBookmarkButtons();
 
-    // re-inject buttons whenever new messages render, and refresh bookmark list on chat swap
-    const observer = new MutationObserver(() => injectBookmarkButtons());
-    const chatEl = document.getElementById("chat");
-    if (chatEl) {
-        observer.observe(chatEl, { childList: true, subtree: true });
+        // re-inject buttons whenever new messages render, and refresh bookmark list on chat swap
+        const observer = new MutationObserver(() => injectBookmarkButtons());
+        const chatEl = document.getElementById("chat");
+        if (chatEl) {
+            observer.observe(chatEl, { childList: true, subtree: true });
+        }
+
+        eventSource.on(event_types.CHAT_CHANGED, () => {
+            activeCategoryFilter = "all";
+            renderCategoryChips();
+            renderBookmarksTab();
+            runSearch("");
+            setTimeout(injectBookmarkButtons, 200);
+        });
+    } catch (e) {
+        try {
+            if (typeof toastr !== "undefined") {
+                toastr.error?.("Message Bookmarks: initialization error — " + e.message, "Message Bookmarks");
+            }
+        } catch {}
+        console.error("[Message Bookmarks] init failed:", e);
     }
-
-    eventSource.on(event_types.CHAT_CHANGED, () => {
-        activeCategoryFilter = "all";
-        renderCategoryChips();
-        renderBookmarksTab();
-        runSearch("");
-        setTimeout(injectBookmarkButtons, 200);
-    });
 });
