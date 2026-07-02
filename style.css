@@ -316,3 +316,35 @@
         bottom: 76px;
     }
 }
+
+/* ============ Settings panel (matches ST's inline-drawer card look) ============ */
+#mb_settings {
+    --mb-surface: color-mix(in srgb, var(--SmartThemeBlurTintColor, rgba(18, 18, 20, 0.96)) 88%, rgba(255, 255, 255, 0.03) 12%);
+    --mb-border: color-mix(in srgb, var(--SmartThemeBorderColor, rgba(255, 255, 255, 0.16)) 80%, rgba(255, 255, 255, 0.12) 20%);
+    --mb-accent: var(--SmartThemeQuoteColor, #6ba3ff);
+    --mb-text: var(--SmartThemeBodyColor, #f2f0eb);
+    --mb-muted: color-mix(in srgb, var(--SmartThemeBodyColor, #f2f0eb) 64%, var(--SmartThemeEmColor, #9b9b9b) 36%);
+
+    padding: 10px 12px;
+    border: 1px solid var(--mb-border);
+    border-radius: 12px;
+    background: var(--mb-surface);
+    color: var(--mb-text);
+}
+
+#mb_settings .checkbox_label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+#mb_settings input[type="checkbox"] {
+    accent-color: var(--mb-accent);
+}
+
+#mb_settings small {
+    display: block;
+    color: var(--mb-muted);
+}
+
